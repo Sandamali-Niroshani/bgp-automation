@@ -1,0 +1,60 @@
+{
+    "contactDetails": {
+      "mainContactPerson": {
+        "name": "John Doe",
+        "designation": "Software Engineer",
+        "contact": "1234567890",
+        "email": "test1@gmail.com"
+      },
+      "mailingAddress": {
+        "postalCode": "554343",
+        "block": "1",
+        "street": "SERANGOON NORTH VIEW",
+        "unitNumber": "2",
+        "level": "5",
+        "building": "Test Building"
+      },
+      "offerAddress": {
+        "name": "James Robert",
+        "designation": "Software Engineer",
+        "email": "test3@gmail.com"
+      }
+    },
+    "proposal": {
+      "projectName": "QA Test Project",
+      "numberOfYears": 5,
+      "localShare": 65,
+      "objective": "Bring my business overseas or establish a stronger international presence",
+      "marketEntryStrategy": "Market Entry",
+      "targetMarket": "China",
+      "expandingOutside": "Yes"
+    },
+    "businessImpact": {
+      "numberOfYears": 2,
+      "overseasSales": "1000,2000,3000,4000",
+      "overseasInvestments": "500,1000,1500,2000",
+      "reasoning": "Reasons for overseas sales and overseas investments projections.",
+      "otherDetails": "publicity, collaboration, knowledge transfer"
+    },
+    "costSection": {
+      "salaryDetails": {
+        "name": "Michael",
+        "designation": "QA Engineer",
+        "roleDescription": "Testing application",
+        "duration": "1",
+        "salary": "3000",
+        "document": "sampleUploadDoc.pdf"
+      }
+    },
+    "declarations": {
+      "criminalLiability": "No",
+      "pendingLitigation": "No",
+      "insolvency": "No",
+      "complianceBreach": "No",
+      "termination": "No",
+      "misrepresentation": "No",
+      "adverseFindings": "No",
+      "corruptionViolation": "No"
+    }
+  }
+  
