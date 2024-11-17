@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { PageBase } from "../common/PageBase";
+import { PageBase } from "../utils/PageBase";
 
 export class ApplyGrant extends PageBase {
     private btnSelectBusinesSector: Locator;

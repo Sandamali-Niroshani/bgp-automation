@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { PageBase } from "../common/PageBase";
+import { PageBase } from "../utils/PageBase";
 
 export class EligibilityPage extends PageBase {
     private rdRegisteredYes: Locator = this.page.locator('#react-eligibility-sg_registered_check-true')

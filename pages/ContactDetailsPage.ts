@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { PageBase } from "../common/PageBase";
+import { PageBase } from "../utils/PageBase";
 
 export class ContactDetailsPage extends PageBase {
     private txtName: Locator = this.page.locator('#react-contact_info-name')

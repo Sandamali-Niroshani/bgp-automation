@@ -1,6 +1,6 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { PageManager } from "./PageManager";
-import {PageBase} from "../common/PageBase";
+import {PageBase} from "../utils/PageBase";
 
 export class LoginPage extends PageBase {
     private formsGroupMenu: Locator = this.page.getByTitle('Forms')

@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { PageBase } from "../common/PageBase";
+import { PageBase } from "../utils/PageBase";
 
 export class GrantActions extends PageBase {
     private btnProceed: Locator = this.page.locator('#keyPage-form-button')
