@@ -18,6 +18,10 @@ export class MyGrantPage extends PageBase {
         expect(await this.lblBusinessSector.isVisible()).toBeTruthy()
     }
 
-
+    async verifyFormInProcessingTab(referenceId: string) {
+        await this.processingTab.click()
+        await this.tableRefId.waitFor({ state: 'visible' });
+        expect(await this.tableRefId.innerText()).toContain(referenceId)
+    }
 
 }

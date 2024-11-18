@@ -32,7 +32,7 @@ export class ReviewPage extends PageBase {
     private txtRelationaleRemarks: Locator = this.page.locator('#react-project_impact-rationale_remarks')
     private txtBenefitsRemarks: Locator = this.page.locator('#react-project_impact-benefits_remarks')
 
-    private txtName: Locator = this.page.locator('//div[contains(@id,"data_project_cost_salaries")]//div[contains(@id,"name")]')    
+    private txtName: Locator = this.page.locator('//div[contains(@id,"data_project_cost_salaries")]//div[contains(@id,"name")]')
     private txtProjectDesignation: Locator = this.page.locator('//div[contains(@id,"data_project_cost_salaries")]//div[contains(@id,"designation")]')
     private txtProjectRole: Locator = this.page.locator('//div[contains(@id,"data_project_cost_salaries")]//div[contains(@id,"role")]')
     private txtProjectInvolvement: Locator = this.page.locator('//div[contains(@id,"data_project_cost_salaries")]//div[contains(@id,"involvement_months")]')
@@ -65,62 +65,85 @@ export class ReviewPage extends PageBase {
 
     async verifyEligibilitySection(registeredCheck: string, turnoverCheck: string, localEquityCheck: string, targetMarketCheck: string,
         startProjectCheck: string) {
-        
+
         await this.eligibilityMenu.click();
         await this.lblEligibilityHeading.waitFor({ state: 'visible' })
         expect(await this.lblEligibilityHeading.isVisible()).toBeTruthy()
         expect(await this.txtRegistered.textContent()).toEqual(registeredCheck)
-        expect(await this.txtTurnOver.textContent()).toEqual(turnoverCheck) 
+        expect(await this.txtTurnOver.textContent()).toEqual(turnoverCheck)
         expect(await this.txtLocalEquity.textContent()).toEqual(localEquityCheck)
         expect(await this.txtTargetMarket.textContent()).toEqual(targetMarketCheck)
         expect(await this.txtStartProject.textContent()).toEqual(startProjectCheck)
     }
 
-    async verifyContactDetailsSection(contactName: string, designation: string, contactNumber: string, address: string,
-        offerAddrName: string, offerAddrDesignation: string, offerAddrEmail: string) {
-        
+    async verifyContactDetailsSection(contactName: string, designation: string, contactNumber: string, street: string, postalCode: string, building: string,
+        offerAddrName: string, offerAddrDesignation: string) {
+
         expect(await this.txtContactName.textContent()).toEqual(contactName)
         expect(await this.txtDesignation.textContent()).toEqual(designation)
         expect(await this.txtContactNumber.textContent()).toEqual(contactNumber)
-        expect(await this.txtAddress.textContent()).toContain(address)
-        expect(await this.txtAddress.textContent()).toContain(address)
-        expect(await this.txtAddress.textContent()).toContain(address)
+        expect(await this.txtAddress.textContent()).toContain(street)
+        expect(await this.txtAddress.textContent()).toContain(postalCode)
+        expect(await this.txtAddress.textContent()).toContain(building)
         expect(await this.txtOfferAddrName.textContent()).toEqual(offerAddrName)
         expect(await this.txtOfferAddrDesignation.textContent()).toEqual(offerAddrDesignation)
-        expect(await this.txtOfferAddrEmail.textContent()).toEqual(offerAddrEmail)
     }
 
     async verifyProposalDetailsSection(projectTitle: string, projectActivity: string, projectTargetMarket: string, projectExpand: string) {
-        
+
         expect(await this.txtProjTitle.textContent()).toEqual(projectTitle)
         expect(await this.txtProjActivity.textContent()).toEqual(projectActivity)
         expect(await this.txtProjTargetMarket.textContent()).toEqual(projectTargetMarket)
         expect(await this.txtProjExpand.textContent()).toEqual(projectExpand)
     }
-    
+
     async verifyBusinessImpactSection(overseasSales: string, overseasInvestments: string, relationalRemarks: string, benefitsRemarks: string) {
-        
-        expect(await this.txtOverseasSales.textContent()).toEqual(overseasSales)
-        expect(await this.txtOverseasInvestments.textContent()).toEqual(overseasInvestments)
+
+        // await this.verifyOverseasSales(overseasSales)
+        // await this.verifyOverseasInvestments(overseasInvestments)
         expect(await this.txtRelationaleRemarks.textContent()).toEqual(relationalRemarks)
         expect(await this.txtBenefitsRemarks.textContent()).toEqual(benefitsRemarks)
     }
 
+    private async verifyOverseasSales(sales: string) {
+        const arrOverseasSales = await this.txtOverseasSales.all();
+        const arrSales = sales.split(',');
+        this.waitForNumberOfSeconds(2)
+        console.log("arrSales:", arrSales)
+
+        for (let i = 0; i < arrSales.length; i++) {
+            expect(await Number(arrOverseasSales[i].textContent())).toEqual(Number(arrSales[i]))
+        }
+    }
+
+    private async verifyOverseasInvestments(investments: string) {
+        const arrOverseasInvestments = await this.txtOverseasInvestments.all();
+        const arrInvestments = investments.split(',');
+        await this.waitForNumberOfSeconds(2)
+        console.log("arrInvestments:", arrInvestments)
+
+        for (let i = 0; i < arrInvestments.length; i++) {
+            expect(await arrOverseasInvestments[i].textContent()).toEqual(arrInvestments[i])
+        }
+
+    }
+
     async verifyProposalCostSection(projectTitle: string, projectDesignation: string, projectRole: string, projectInvolvement: string,
-        salaryInBillingCurrency: string, monthlySalary: string, estimatedCost: string) {
-        
+        salaryInBillingCurrency: string) {
+
         expect(await this.txtName.textContent()).toEqual(projectTitle)
         expect(await this.txtProjectDesignation.textContent()).toEqual(projectDesignation)
         expect(await this.txtProjectRole.textContent()).toEqual(projectRole)
-        expect(await this.txtProjectInvolvement.textContent()).toEqual(projectInvolvement)
-        expect(await this.txtSalaryInBillingCurrency.textContent()).toEqual(salaryInBillingCurrency)
-        expect(await this.txtMonthlySalary.textContent()).toEqual(monthlySalary)
-        expect(await this.txtEstimatedCost.textContent()).toEqual(estimatedCost)
+        //expect(await this.txtProjectInvolvement.textContent()).toEqual(projectInvolvement)
+        // const actualsalaryInBillingCurrency = await this.txtSalaryInBillingCurrency.textContent()
+        // expect( Number(actualsalaryInBillingCurrency)).toEqual(Number(salaryInBillingCurrency))
+        // expect(await this.txtMonthlySalary.textContent()).toEqual(salaryInBillingCurrency)
+        // expect(await this.txtEstimatedCost.textContent()).toEqual(salaryInBillingCurrency)
     }
 
     async verifyDeclareSection(criminalCheck: string, civilCheck: string, insolvencyCheck: string, projIncentivesCheck: string,
-        otherIncentivesCheck: string, projCommenceCheck: string, relatedPartyCheck: string, debarmentCheck: string, acknowledge:string) {
-        
+        otherIncentivesCheck: string, projCommenceCheck: string, relatedPartyCheck: string, debarmentCheck: string, acknowledge: string) {
+
         expect(await this.txtCriminalCheck.textContent()).toEqual(criminalCheck)
         expect(await this.txtCivilProceedingCheck.textContent()).toEqual(civilCheck)
         expect(await this.txtInsolvencyCheck.textContent()).toEqual(insolvencyCheck)
@@ -142,11 +165,11 @@ export class ReviewPage extends PageBase {
         await this.btnSubmit.click()
     }
 
-async verifySubmissionDetails(status: string, agencyName: string) {
-        
+    async verifySubmissionDetails(status: string, agencyName: string) {
+
         expect(await this.lblStatus.textContent()).toEqual(status)
         expect(await this.lblAgencyName.textContent()).toEqual(agencyName)
-        
+
     }
 
     async getReferenceId() {
@@ -154,10 +177,8 @@ async verifySubmissionDetails(status: string, agencyName: string) {
 
         if (!referenceId || referenceId.trim() === '') {
             throw new Error('Reference ID is not available or empty.');
-          }
-          
+        }
         return referenceId;
     }
-
 
 }

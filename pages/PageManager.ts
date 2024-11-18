@@ -11,6 +11,7 @@ import { BusinessImpact } from './BusinessImpact'
 import { CostPage } from './CostPage'
 import {DeclarePage} from './DeclarePage'
 import { Menu } from './Menu'
+import {ReviewPage} from './ReviewPage'
 
 export class PageManager {
 
@@ -27,6 +28,7 @@ export class PageManager {
     private readonly costPage: CostPage
     private readonly declarePage: DeclarePage
     private readonly menu: Menu
+    private readonly reviewPage: ReviewPage
 
 
     constructor(page: Page) {
@@ -43,6 +45,7 @@ export class PageManager {
         this.costPage = new CostPage(this.page)
         this.declarePage = new DeclarePage(this.page)
         this.menu = new Menu(this.page)
+        this.reviewPage = new ReviewPage(this.page)
 
     }
 
@@ -92,5 +95,9 @@ export class PageManager {
 
     getMenu(){
         return this.menu
+    }
+
+    getReviewPage(){
+        return this.reviewPage
     }
 }

@@ -3,6 +3,7 @@ import { PageBase } from "../utils/PageBase";
 
 export class ContactDetailsPage extends PageBase {
     private email: string;
+    private offerAddresseeEmail: string;
 
     private txtName: Locator = this.page.locator('#react-contact_info-name')
     private txtJobTitle: Locator = this.page.locator('#react-contact_info-designation')
@@ -54,7 +55,9 @@ export class ContactDetailsPage extends PageBase {
     async fillOfferAddressSection(name: string, jobTitle: string, email: string) {
         await this.txtOffereeName.fill(name)
         await this.txtOffereeJobTitle.fill(jobTitle)
-        await this.txtOffereeJobEmail.fill(this.email)
+        this.offerAddresseeEmail = this.generateEmail()
+        console.log('Email: ', this.offerAddresseeEmail)
+        await this.txtOffereeJobEmail.fill(this.offerAddresseeEmail)
     }
    
     async fillMaillingAddressPopulatingData(postalCode: string, blockNo: string, street: string, level: string, unit: string, buildingName: string) {

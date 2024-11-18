@@ -2,14 +2,16 @@ import { Browser, test, Page, BrowserContext } from '@playwright/test'
 import { PageManager } from '../pages/PageManager'
 import testData from '../resources/testData/dataTS001.json'
 import accountTestData from '../resources/testData/accountData.json'
+import commonTestData from '../resources/testData/commonData.json'
 
 let browser: Browser;
 let context: BrowserContext;
 let page: Page;
+let referenceId: string;
 
 test.beforeAll(async ({ playwright }) => {
   // Launch the browser once
-  browser = await playwright.chromium.launch({ headless: false }); 
+  browser = await playwright.chromium.launch({ headless: false });
   context = await browser.newContext();
   page = await context.newPage();
 });
@@ -19,7 +21,10 @@ test.afterAll(async () => {
   await browser.close();
 });
 
-test.describe('Create new grant', () => {
+/**
+ * This is to test the end to end flow of submitting a new grant form
+ */
+test.describe('Submit new grant form', () => {
   let pm: PageManager;
 
   test.beforeEach(async () => {
@@ -43,8 +48,14 @@ test.describe('Create new grant', () => {
   })
 
   test('Apply for Business Grant Form', async () => {
+    const testDataGrantActivity = commonTestData.grantActivityInfo;
+
     await pm.navigateToMyGrant().clickNewGrant()
-    await pm.getGrantPicker().applyForGrant('IT', 'Bring my business overseas or establish a stronger international presence', 'Market Readiness Assistance')
+    await pm.getGrantPicker().applyForGrant(
+      testDataGrantActivity.sector,
+      testDataGrantActivity.developmentArea,
+      testDataGrantActivity.functionalArea
+    )
     await pm.getGrantActions().clickProceed()
   })
 
@@ -54,101 +65,178 @@ test.describe('Create new grant', () => {
     await pm.getEligibility().navigateIntoContactDetails()
   })
 
-test('Input Contact Details Section', async () => {
-  const contactDetails = testData.contactDetails;
+  test('Input Contact Details Section', async () => {
+    const testDataContactInfo = testData.contactDetails;
 
-  await pm.getContactDetails().fillMainContactPersonSection(
-    contactDetails.mainContactPerson.name,
-    contactDetails.mainContactPerson.designation,
-    contactDetails.mainContactPerson.contact,
-  );
+    await pm.getContactDetails().fillMainContactPersonSection(
+      testDataContactInfo.mainContactPerson.name,
+      testDataContactInfo.mainContactPerson.designation,
+      testDataContactInfo.mainContactPerson.contact,
+    );
 
-  await pm.getContactDetails().fillMaillingAddressSection(
-    contactDetails.mailingAddress.postalCode,
-    contactDetails.mailingAddress.block,
-    contactDetails.mailingAddress.street,
-    contactDetails.mailingAddress.unitNumber,
-    contactDetails.mailingAddress.level,
-    contactDetails.mailingAddress.building
-  );
+    await pm.getContactDetails().fillMaillingAddressSection(
+      testDataContactInfo.mailingAddress.postalCode,
+      testDataContactInfo.mailingAddress.block,
+      testDataContactInfo.mailingAddress.street,
+      testDataContactInfo.mailingAddress.unitNumber,
+      testDataContactInfo.mailingAddress.level,
+      testDataContactInfo.mailingAddress.building
+    );
 
-  await pm.getContactDetails().fillOfferAddressSection(
-    contactDetails.offerAddress.name,
-    contactDetails.offerAddress.designation,
-    contactDetails.offerAddress.email
-  );
+    await pm.getContactDetails().fillOfferAddressSection(
+      testDataContactInfo.offerAddress.name,
+      testDataContactInfo.offerAddress.designation,
+      testDataContactInfo.offerAddress.email
+    );
 
-  await pm.getContactDetails().clickSave();
-  await pm.getContactDetails().navigateIntoProposal();
-})
+    await pm.getContactDetails().clickSave();
+    await pm.getContactDetails().navigateIntoProposal();
+  })
 
-test('Input Proposal Section', async () => {
-  const proposal = testData.proposal;
+  test('Input Proposal Section', async () => {
+    const testDataProposalInfo = testData.proposal;
 
-  await pm.getProposal().fillProposalSection(
-    proposal.projectName,
-    proposal.numberOfYears,
-    proposal.localShare,
-    proposal.objective,
-    proposal.marketEntryStrategy,
-    proposal.targetMarket,
-    proposal.expandingOutside
-  );
+    await pm.getProposal().fillProposalSection(
+      testDataProposalInfo.projectName,
+      testDataProposalInfo.numberOfYears,
+      testDataProposalInfo.localShare,
+      testDataProposalInfo.objective,
+      testDataProposalInfo.marketEntryStrategy,
+      testDataProposalInfo.targetMarket,
+      testDataProposalInfo.expandingOutside
+    );
 
-  await pm.getProposal().clickSave();
-  await pm.getProposal().navigateIntoBusinessImpact();
+    await pm.getProposal().clickSave();
+    await pm.getProposal().navigateIntoBusinessImpact();
 
-})
+  })
 
-test('Input Business Impact Section', async () => {
-  const businessImpact = testData.businessImpact;
+  test('Input Business Impact Section', async () => {
+    const testDataBusinessImpactInfo = testData.businessImpact;
 
-  await pm.getBusinessImpact().fillBusinessImpactSection(
-    businessImpact.numberOfYears,
-    businessImpact.overseasSales,
-    businessImpact.overseasInvestments,
-    businessImpact.reasoning,
-    businessImpact.otherDetails
-  );
+    await pm.getBusinessImpact().fillBusinessImpactSection(
+      testDataBusinessImpactInfo.numberOfYears,
+      testDataBusinessImpactInfo.overseasSales,
+      testDataBusinessImpactInfo.overseasInvestments,
+      testDataBusinessImpactInfo.reasoning,
+      testDataBusinessImpactInfo.otherDetails
+    );
 
-  await pm.getBusinessImpact().clickSave();
-  await pm.getBusinessImpact().navigateIntoCost();
-})
+    await pm.getBusinessImpact().clickSave();
+    await pm.getBusinessImpact().navigateIntoCost();
+  })
 
-test('Input Cost Section', async () => {
-  const costSection = testData.costSection;
+  test('Input Cost Section', async () => {
+    const testDatCostInfo = testData.costSection;
 
-  await pm.getCost().fillSalarySection(
-    costSection.salaryDetails.name,
-    costSection.salaryDetails.designation,
-    costSection.salaryDetails.roleDescription,
-    costSection.salaryDetails.duration,
-    costSection.salaryDetails.salary,
-    costSection.salaryDetails.document
-  );
+    await pm.getCost().fillSalarySection(
+      testDatCostInfo.salaryDetails.name,
+      testDatCostInfo.salaryDetails.designation,
+      testDatCostInfo.salaryDetails.roleDescription,
+      testDatCostInfo.salaryDetails.duration,
+      testDatCostInfo.salaryDetails.salary,
+      testDatCostInfo.salaryDetails.document
+    );
 
-  await pm.getCost().clickSave();
-  await pm.getCost().navigateIntoDeclareAndReview();
-})
+    await pm.getCost().clickSave();
+    await pm.getCost().navigateIntoDeclareAndReview();
+  })
 
-test('Navigate into Declare & Acknowledge', async () => {
-  const declarations = testData.declarations;
+  test('Declare & Acknowledge Form', async () => {
+    const testDatDeclarationsInfo = testData.declarations;
 
     await pm.getDeclarePage().fillDeclareSection(
-      declarations.criminalLiability,
-      declarations.pendingLitigation,
-      declarations.insolvency,
-      declarations.complianceBreach,
-      declarations.termination,
-      declarations.misrepresentation,
-      declarations.adverseFindings,
-      declarations.corruptionViolation
+      testDatDeclarationsInfo.criminalLiability,
+      testDatDeclarationsInfo.civilCheck,
+      testDatDeclarationsInfo.insolvencyCheck,
+      testDatDeclarationsInfo.projIncentivesCheck,
+      testDatDeclarationsInfo.otherIncentivesCheck,
+      testDatDeclarationsInfo.projCommenceCheck,
+      testDatDeclarationsInfo.relatedPartyCheck,
+      testDatDeclarationsInfo.debarmentCheck,
     );
 
     await pm.getDeclarePage().applicantAcknowledgement();
     await pm.getDeclarePage().clickSave();
     await pm.getDeclarePage().navigateIntoReview();
-})
+  })
+
+  test('Review all section in Form', async () => {
+    const testDatEligibilityInfo = testData.eligibility;
+    const testDataContactInfo = testData.contactDetails;
+    const testDataProposalInfo = testData.proposal;
+    const testDataBusinessImpactInfo = testData.businessImpact;
+    const testDataCostInfo = testData.costSection;
+    const testDatDeclarationsInfo = testData.declarations;
+
+    await pm.getReviewPage().verifyEligibilitySection(
+      testDatEligibilityInfo.registeredCheck,
+      testDatEligibilityInfo.turnoverCheck,
+      testDatEligibilityInfo.localEquityCheck,
+      testDatEligibilityInfo.targetMarketCheck,
+      testDatEligibilityInfo.startProjectCheck
+    )
+
+    await pm.getReviewPage().verifyContactDetailsSection(
+      testDataContactInfo.mainContactPerson.name,
+      testDataContactInfo.mainContactPerson.designation,
+      testDataContactInfo.mainContactPerson.contact,
+      testDataContactInfo.mailingAddress.street,
+      testDataContactInfo.mailingAddress.postalCode,
+      testDataContactInfo.mailingAddress.building,
+      testDataContactInfo.offerAddress.name,
+      testDataContactInfo.offerAddress.designation
+    )
+
+    await pm.getReviewPage().verifyProposalDetailsSection(
+      testDataProposalInfo.projectName,
+      testDataProposalInfo.marketEntryStrategy,
+      testDataProposalInfo.targetMarket,
+      testDataProposalInfo.expandingOutside
+    )
+
+    await pm.getReviewPage().verifyBusinessImpactSection(
+      testDataBusinessImpactInfo.overseasSales,
+      testDataBusinessImpactInfo.overseasInvestments,
+      testDataBusinessImpactInfo.reasoning,
+      testDataBusinessImpactInfo.otherDetails
+    )
+
+    await pm.getReviewPage().verifyProposalCostSection(
+      testDataCostInfo.salaryDetails.name,
+      testDataCostInfo.salaryDetails.designation,
+      testDataCostInfo.salaryDetails.roleDescription,
+      testDataCostInfo.salaryDetails.duration,
+      testDataCostInfo.salaryDetails.salary
+    )
+    await pm.getReviewPage().verifyDeclareSection(
+      testDatDeclarationsInfo.criminalLiability,
+      testDatDeclarationsInfo.civilCheck,
+      testDatDeclarationsInfo.insolvencyCheck,
+      testDatDeclarationsInfo.projIncentivesCheck,
+      testDatDeclarationsInfo.otherIncentivesCheck,
+      testDatDeclarationsInfo.projCommenceCheck,
+      testDatDeclarationsInfo.relatedPartyCheck,
+      testDatDeclarationsInfo.debarmentCheck,
+      testDatDeclarationsInfo.acknowledgement
+    )
+  }
+  )
+  test('Submit Business Grant form', async () => {
+    await pm.getReviewPage().finalAcknowledgementAndSubmitForm()
+    await pm.getReviewPage().verifySubmissionDetails("Submitted","Enterprise Singapore")
+    referenceId = await pm.getReviewPage().getReferenceId()
+  })
+
+  test('Verify the form in Processing Tab', async () => {
+    await pm.getMenu().navigateIntoMyGrantPage()
+    await pm.navigateToMyGrant().verifyFormInProcessingTab(referenceId)
+  })
 
 
-})
+});
+
+
+
+
+

@@ -9,6 +9,7 @@ export class Menu extends PageBase {
     private declareAndReview: Locator = this.page.locator('.menu-text', { hasText: 'Declare & Review' })
 
     private lnkMyGrant: Locator = this.page.getByRole('link', { name: 'My Grants' })
+    private lblMyGrants: Locator = this.page.locator('h2', { hasText: 'my Grants' });
 
     private lblContactDetailHeading: Locator = this.page.locator('h2', { hasText: 'Provide Your Contact Details' })
     private lblProposalHeading: Locator = this.page.locator('h2', { hasText: 'Submit Your Proposal' })
@@ -20,36 +21,40 @@ export class Menu extends PageBase {
         super(page)
     }
 
-    async navigateIntoContactDetails(){
+    async navigateIntoContactDetails() {
         await this.contactDetailsMenu.click();
         await this.lblContactDetailHeading.waitFor({ state: 'visible' })
         expect(await this.lblContactDetailHeading.isVisible()).toBeTruthy()
     }
 
-    async navigateIntoProposal(){
+    async navigateIntoProposal() {
         await this.proposalMenu.click();
         await this.lblProposalHeading.waitFor({ state: 'visible' })
         expect(await this.lblProposalHeading.isVisible()).toBeTruthy()
     }
 
-    async navigateIntoBusinessImpact(){
+    async navigateIntoBusinessImpact() {
         await this.businessImpactMenu.click();
         await this.lblBusinessImpactHeading.waitFor({ state: 'visible' })
         expect(await this.lblBusinessImpactHeading.isVisible()).toBeTruthy()
     }
 
-    async navigateIntoCost(){
+    async navigateIntoCost() {
         await this.costMenu.click();
         await this.lblCostHeading.waitFor({ state: 'visible' })
         expect(await this.lblCostHeading.isVisible()).toBeTruthy()
     }
 
-    async navigateIntoDeclareAndReview(){            
+    async navigateIntoDeclareAndReview() {
         await this.declareAndReview.click();
         await this.lblDeclareAndReviewHeading.waitFor({ state: 'visible' })
         expect(await this.lblDeclareAndReviewHeading.isVisible()).toBeTruthy()
     }
 
-
+    async navigateIntoMyGrantPage() {
+        await this.lnkMyGrant.click();
+        await this.lblMyGrants.waitFor({ state: 'visible' })
+        expect(await this.lblMyGrants.isVisible()).toBeTruthy()
+    }
 
 }
