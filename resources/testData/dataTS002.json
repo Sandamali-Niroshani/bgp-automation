@@ -1,0 +1,18 @@
+{
+    "contactDetails": {
+      "mainContactPerson": {
+        "name": "John Doe",
+        "designation": "Software Engineer",
+        "contact": "1234567890"
+      },
+      "companyMailingAddress": {
+        "postalCode": "117438",
+        "block": "10",
+        "street": "Pasir Panjang Road",
+        "unitNumber": "01",
+        "level": "10",
+        "building": "Mapletree Business City"
+      }
+    }
+  }
+  

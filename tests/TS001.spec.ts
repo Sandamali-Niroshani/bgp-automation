@@ -9,7 +9,7 @@ let page: Page;
 
 test.beforeAll(async ({ playwright }) => {
   // Launch the browser once
-  browser = await playwright.chromium.launch({ headless: false }); // Set `headless: true` if you don't want a visible browser
+  browser = await playwright.chromium.launch({ headless: false }); 
   context = await browser.newContext();
   page = await context.newPage();
 });
@@ -61,7 +61,6 @@ test('Input Contact Details Section', async () => {
     contactDetails.mainContactPerson.name,
     contactDetails.mainContactPerson.designation,
     contactDetails.mainContactPerson.contact,
-    contactDetails.mainContactPerson.email
   );
 
   await pm.getContactDetails().fillMaillingAddressSection(

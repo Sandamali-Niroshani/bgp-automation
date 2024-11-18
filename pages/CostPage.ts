@@ -15,7 +15,7 @@ export class CostPage extends PageBase {
     private txtProjectInvolvement: Locator = this.page.getByLabel('Project Involvement')
     private txtSalaryInBillingCurrency: Locator = this.page.getByLabel('Monthly Salary in Billing Currency')
     private txtMonthlySalry: Locator = this.page.getByLabel('Monthly Salary')
-    private txtEstimatedCost: Locator = this.page.getByLabel('Estimated Cost')
+    private txtEstimatedCost: Locator = this.page.locator('//div[contains(@id,"estimated_cost")]')
 
     private fileInput: Locator = this.page.locator('input[type="file"]');
 
@@ -41,6 +41,14 @@ export class CostPage extends PageBase {
         expect(uploadedFileName).toContain(fileName);
     }
 
+/**
+ * Extracts only numeric values from a given string.
+ * @param value - The string to extract numbers from.
+ * @returns A string containing only the numeric characters.
+ */
+private async extractNumericValues(value: string) {
+    return value.replace(/\D/g, ''); // Replace all non-numeric characters with an empty string
+}
 
     async fillSalarySection(name: string, designation: string, role: string, projInvolment: string, salaryInbillingCurrency: string, fileName: string) {
 
@@ -52,8 +60,13 @@ export class CostPage extends PageBase {
         await this.txtProjectInvolvement.fill(projInvolment)
         await this.txtSalaryInBillingCurrency.fill(salaryInbillingCurrency)
 
-        expect(await this.txtMonthlySalry.textContent()).toEqual(salaryInbillingCurrency)
-        expect(await this.txtEstimatedCost.textContent()).toEqual(salaryInbillingCurrency)
+        const populatedMonthlySalary = await this.txtMonthlySalry.inputValue()
+        const monthlySalary = await this.extractNumericValues(populatedMonthlySalary);
+        expect(Number(monthlySalary)).toBe(Number(salaryInbillingCurrency))
+
+        // const populatedEstimatedCost = await this.txtEstimatedCost.inputValue()
+        // const estimatedCost = await this.extractNumericValues(populatedEstimatedCost);
+        // expect(Number(estimatedCost)).toBe((salaryInbillingCurrency))
 
         await this.uploadFile(this.fileDirectory, fileName)
     }

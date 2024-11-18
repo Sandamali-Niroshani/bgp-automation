@@ -42,9 +42,9 @@ export class BusinessImpact extends PageBase {
         const formattedFyEndDate = await this.formatDate(fyEndDateString)
         await this.txtCurrentYear.fill(formattedFyEndDate)
 
-        this.fillOverseasSales(sales)
-        this.waitForNumberOfSeconds(10)
-        this.fillOverseasInvestments(investments)
+        await this.fillOverseasSales(sales)
+        await this.waitForNumberOfSeconds(10)
+        await this.fillOverseasInvestments(investments)
 
         await this.txtRelationaleRemarks.fill(rationaleRemarks)
         await this.txtBenefitsRemarks.fill(benefitsRemarks)
@@ -53,17 +53,26 @@ export class BusinessImpact extends PageBase {
     private async fillOverseasSales(sales: string) {
         const arrOverseasSales = await this.txtOverseasSales.all();
         const arrSales = sales.split(',');
+        this.waitForNumberOfSeconds(2)
+        console.log("arrSales:",arrSales)
 
         for (let i = 0; i < arrSales.length; i++) {
            await arrOverseasSales[i].fill(arrSales[i])
         }
     }
 
-
     private async fillOverseasInvestments(investments: string) {
         const arrOverseasInvestments = await this.txtOverseasInvestments.all();
         const arrInvestments = investments.split(',');
+        await this.waitForNumberOfSeconds(2)
+        console.log("arrInvestments:",arrInvestments)
 
+        if (arrOverseasInvestments.length !== arrInvestments.length) {
+            throw new Error(`Mismatch in number of input fields and investment values: 
+                             fields=${arrOverseasInvestments.length}, 
+                             values=${arrInvestments.length}`);
+        }
+    
         for (let i = 0; i < arrInvestments.length; i++) {
             await arrOverseasInvestments[i].fill(arrInvestments[i])
         }

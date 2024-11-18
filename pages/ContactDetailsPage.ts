@@ -2,6 +2,8 @@ import { expect, Locator, Page } from "@playwright/test";
 import { PageBase } from "../utils/PageBase";
 
 export class ContactDetailsPage extends PageBase {
+    private email: string;
+
     private txtName: Locator = this.page.locator('#react-contact_info-name')
     private txtJobTitle: Locator = this.page.locator('#react-contact_info-designation')
     private txtPhone: Locator = this.page.locator('#react-contact_info-phone')
@@ -12,6 +14,9 @@ export class ContactDetailsPage extends PageBase {
     private txtLevel: Locator = this.page.locator('input#react-contact_info-correspondence_address-level')
     private txtUnit: Locator = this.page.locator('input#react-contact_info-correspondence_address-unit')
     private txtBuildingName: Locator = this.page.getByLabel('Building Name')
+    private checkBoxMailingAddress: Locator = this.page.locator('#react-contact_info-correspondence_address-copied')
+    private checkBoxOfferAddressee: Locator = this.page.locator('#react-contact_info-copied')
+    
 
     private txtOffereeName: Locator = this.page.locator('#react-contact_info-offeree_name')
     private txtOffereeJobTitle: Locator = this.page.locator('#react-contact_info-offeree_designation')
@@ -25,11 +30,13 @@ export class ContactDetailsPage extends PageBase {
         super(page)
     }
 
-    async fillMainContactPersonSection(name: string, jobTitle: string, phone: string, email: string) {
+    async fillMainContactPersonSection(name: string, jobTitle: string, phone: string) {
         await this.txtName.fill(name)
         await this.txtJobTitle.fill(jobTitle)
         await this.txtPhone.fill(phone)
-        await this.txtEmail.fill(email)
+        this.email = this.generateEmail()
+        console.log('Email: ', this.email)
+        await this.txtEmail.fill(this.email)
     }
 
     async fillMaillingAddressSection(postalCode: string, blockNo: string, street: string, level: string, unit: string, buildingName: string) {
@@ -47,9 +54,28 @@ export class ContactDetailsPage extends PageBase {
     async fillOfferAddressSection(name: string, jobTitle: string, email: string) {
         await this.txtOffereeName.fill(name)
         await this.txtOffereeJobTitle.fill(jobTitle)
-        await this.txtOffereeJobEmail.fill(email)
+        await this.txtOffereeJobEmail.fill(this.email)
     }
    
+    async fillMaillingAddressPopulatingData(postalCode: string, blockNo: string, street: string, level: string, unit: string, buildingName: string) {
+        await this.checkBoxMailingAddress.check()
+        expect(await this.checkBoxMailingAddress.isChecked()).toBeTruthy()
+        expect(await this.txtPostalCode.inputValue()).toBe(postalCode)
+        expect(await this.txtBlockNo.inputValue()).toBe(blockNo)
+        expect(await this.txtStreet.inputValue()).toBe(street)
+        expect(await this.txtLevel.inputValue()).toBe(level)
+        expect(await this.txtUnit.inputValue()).toBe(unit)
+        expect(await this.txtBuildingName.inputValue()).toBe(buildingName)
+    }
+
+    async fillOfferAddreseePopulatingData(name: string, jobTitle: string) {
+        await this.checkBoxOfferAddressee.check()
+        expect(await this.checkBoxOfferAddressee.isChecked()).toBeTruthy()
+        expect(await this.txtOffereeName.inputValue()).toBe(name)
+        expect(await this.txtOffereeJobTitle.inputValue()).toBe(jobTitle)   
+        expect(await this.txtOffereeJobEmail.inputValue()).toBe(this.email)
+    }
+
     async clickSave() {
         await this.btnSave.click()
         expect(await this.lblSuccessMsg.first().textContent()).toEqual('Draft Saved')

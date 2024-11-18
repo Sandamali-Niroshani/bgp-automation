@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is a test automation framework built using [Playwright](https://playwright.dev/). It is designed to provide reliable, scalable, and maintainable tests for web applications across multiple browsers and devices.
+This project is playwright and typescript based project. This include testcases for Buiness Grant Portal. 
 
 
 ## Prerequisites
@@ -92,7 +92,6 @@ Customize the `playwright.config.ts` file for your project-specific settings, su
 
 - **Test directory:** `testsDir`
 - **Timeouts:** `timeout`
-- **Browsers:** `projects`
 
 Example:
 
