@@ -18,6 +18,15 @@ export class BusinessImpact extends PageBase {
         super(page)
     }
 
+    /**
+     * Fills the Business Impact section of a form
+     * 
+     * @param fyEndDate - pass no. of days for fyEnd date
+     * @param sales - sales values
+     * @param investments - investments values
+     * @param rationaleRemarks - rational remark
+     * @param benefitsRemarks - benifits remark
+     */
     async fillBusinessImpactSection(fyEndDate: number, sales: string, investments: string, rationaleRemarks: string,
         benefitsRemarks: string) {
 
@@ -33,7 +42,10 @@ export class BusinessImpact extends PageBase {
         await this.txtBenefitsRemarks.fill(benefitsRemarks)
     }
 
-
+    /**
+     * This is to fill sales values 
+     * @param sales sales values (ex:1000,2000,3000,4000)
+     */
     private async fillOverseasSales(sales: string) {
         const arrOverseasSales = await this.txtOverseasSales.all();
         const arrSales = sales.split(',');
@@ -45,7 +57,10 @@ export class BusinessImpact extends PageBase {
         }
     }
 
-
+    /**
+     * This is to fill investment values
+     * @param investments investment values
+     */
     private async fillOverseasInvestments(investments: string) {
         const arrOverseasInvestments = await this.txtOverseasInvestments.all();
         const arrInvestments = investments.split(',');
@@ -64,13 +79,17 @@ export class BusinessImpact extends PageBase {
 
     }
 
-
+    /**
+     * Click save button
+     */
     async clickSave() {
         await this.btnSave.click()
         expect(await this.lblSuccessMsg.first().textContent()).toEqual('Draft Saved')
     }
 
-
+    /**
+     * Navigate into cost section
+     */
     async navigateIntoCost() {
         await this.btnNext.click()
         await this.lblCostHeading.waitFor({ state: 'visible' })
