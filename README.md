@@ -28,7 +28,11 @@ Before you begin, ensure you have the following installed:
    ```bash
     npm install
    ```
+3. **Configure Playwright**
 
+    ```bash
+     npx playwright install
+   ```
 ## Running Tests
 
 ### Execute All Tests
