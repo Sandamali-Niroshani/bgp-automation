@@ -1,5 +1,10 @@
 # Playwright Test Automation Project
 
+# Special note:
+
+The My Grants page is taking more than 2 minutes to load. Please note that I have increased the wait time for this project.
+For reference, I will attach a video of the My Grants section. I have also shared the pass report separately.
+
 ## Overview
 
 This project is playwright and typescript based project. This include testcases for Buiness Grant Portal. 
@@ -10,6 +15,7 @@ This project is playwright and typescript based project. This include testcases 
 Before you begin, ensure you have the following installed:
 
 - **Node.js** (version v22.11.0)  
+- **Visual studio code**
 
 ## Setup
 
@@ -68,7 +74,7 @@ npx playwright test --debug
 ```
 project-root/
 ├── tests/                 # Test files
-├── pages/                 # Page Object Models
+├── pages/                 # Page Object Models classes and PageManager class(for managing Page Object Models classes)
 ├── utils/                 # Utility functions/common functions
 ├── resources              # testData/uploadFiles
 ├── playwright.config.ts   # Playwright configuration
@@ -81,7 +87,11 @@ project-root/
 Testcases are available under tests folder
 
 ```bash
-TS001: Creating BGP end to end test scenario
+TS001: End to end flow of submitting a new business grant form
+TS002: Contact detail section is succeesfully saved with auto populated mailing address and letter of addressee details
+TS003: Eligibility section criteria validation warning message and verify open FAQ link
+TS004: Validate the form error redirection and sidebar error number for missing input fields form submission
+
 ```
 
 ---
@@ -106,5 +116,4 @@ export default defineConfig({
 ## Resources
 
 - [Playwright Documentation](https://playwright.dev/docs/intro)
-- [Playwright GitHub Repository](https://github.com/microsoft/playwright)
 - [Node.js Download](https://nodejs.org/)

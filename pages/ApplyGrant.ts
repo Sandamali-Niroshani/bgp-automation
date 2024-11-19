@@ -39,7 +39,8 @@ export class ApplyGrant extends PageBase {
         expect(await this.btnFunctionalArea.isEnabled()).toBeTruthy()
 
         await this.btnApply.click()
-        this.waitForNumberOfSeconds(1)
+        this.page.waitForLoadState('load')
+        await this.lblGrantActions.waitFor({ state: 'visible' });
         expect(await this.lblGrantActions.isVisible()).toBeTruthy()
     }
 
