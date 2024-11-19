@@ -11,7 +11,7 @@ export class PageBase {
 
     /**
      * This function is used to wait for a specific number of seconds
-     * @param timeInSeconds - number of seconds to wait
+     * @param timeInSeconds  number of seconds to wait
      */
     async waitForNumberOfSeconds(timeInSeconds: number) {
         await this.page.waitForTimeout(timeInSeconds * 1000)
@@ -30,7 +30,7 @@ export class PageBase {
 
     /**
      * This function is used to extracts only numeric values from a given string.
-     * @param value -  string to extract numbers from.
+     * @param value   string to extract numbers from.
      * @returns  string containing only the numeric characters.
      */
     extractNumericValues(value: string): string {
@@ -40,7 +40,7 @@ export class PageBase {
 
     /**
      * This function is used to format a date from 'YYYY-MM-DD' to 'DD MMM YYYY'
-     * @param date - date in the format 'YYYY-MM-DD'
+     * @param date  date in the format 'YYYY-MM-DD'
      * @returns date in the format 'DD MMM YYYY'
      */
     async formatDate(date: string) {
@@ -52,15 +52,15 @@ export class PageBase {
         return `${expectedDate} ${exepctedMont} ${expectedYear}`;
     }
 
-    
+
     /**
      * This function is used to search and select option frm dropdown
      * 
-     * @param eleDropdown - locator for the dropdown input field.
+     * @param eleDropdown  locator for the dropdown input field.
      * @param option - option text to search and select from the dropdown.
      * 
      */
-     async searchAndSelectDropdown(eleDropdown: Locator, option: string) {
+    async searchAndSelectDropdown(eleDropdown: Locator, option: string) {
         await eleDropdown.fill(option)
 
         const focusedOption = this.page.locator('.Select-option.is-focused');
@@ -76,7 +76,12 @@ export class PageBase {
         }
     }
 
-
+    /**
+     * This function is used to upload file
+     * @param filePath  directory of the file
+     * @param fileName  file name
+     * @param fileInput file input locator
+     */
     async uploadFile(filePath: string, fileName: string, fileInput: Locator) {
 
         filePath = path.resolve(__dirname, filePath);
@@ -87,8 +92,8 @@ export class PageBase {
 
     /**
      * This function is used to open a new tab via a link
-     * @param linkLocator - locator of the link to click
-     * @param headerLocator - locator of the header of the new page 
+     * @param linkLocator  locator of the link to click
+     * @param headerLocator  locator of the header of the new page 
      */
     async openNewTabViaLink(linkLocator: Locator, headerLocator: string) {
         try {

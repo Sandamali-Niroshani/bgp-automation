@@ -3,16 +3,20 @@
 # Special note:
 
 The My Grants page is taking more than 2 minutes to load. Please note that I have increased the wait time for this project.
-For reference, I will attach a video of the My Grants section. 
+For reference, I will attach a video of the My Grants section in the email. 
 
 If you encounter any issues while running the project, ensure you are using a compatible Playwright version.
 install the specific versions using:
 
-npx playwright@1.49.0 install  
+```bash
+npx playwright@1.49.0 install 
+``` 
 
 or
 
+```bash
 npx playwright@1.48.2 install 
+```
 
 I have also shared the pass report separately.
 This project can be improved more, but i conclude at this stage.
@@ -92,7 +96,7 @@ project-root/
 ├── tests/                 # Test files
 ├── pages/                 # Page Object Models classes and PageManager class(for managing Page Object Models classes)
 ├── utils/                 # Utility functions/common functions
-├── resources              # testData/uploadFiles
+├── resources              # testData/uploadFiles (json file for test data)
 ├── playwright.config.ts   # Playwright configuration
 ├── package.json           # Project dependencies
 ├── README.md              # Documentation
