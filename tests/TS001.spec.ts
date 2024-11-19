@@ -85,8 +85,7 @@ test.describe('Submit new grant form', () => {
 
     await pm.getContactDetails().fillOfferAddressSection(
       testDataContactInfo.offerAddress.name,
-      testDataContactInfo.offerAddress.designation,
-      testDataContactInfo.offerAddress.email
+      testDataContactInfo.offerAddress.designation
     );
 
     await pm.getContactDetails().clickSave();
@@ -126,6 +125,7 @@ test.describe('Submit new grant form', () => {
     await pm.getBusinessImpact().navigateIntoCost();
   })
 
+
   test('Input Cost Section', async () => {
     const testDatCostInfo = testData.costSection;
 
@@ -135,12 +135,14 @@ test.describe('Submit new grant form', () => {
       testDatCostInfo.salaryDetails.roleDescription,
       testDatCostInfo.salaryDetails.duration,
       testDatCostInfo.salaryDetails.salary,
-      testDatCostInfo.salaryDetails.document
+      testDatCostInfo.salaryDetails.document,
+      commonTestData.costInfo.fileDirectory
     );
 
     await pm.getCost().clickSave();
     await pm.getCost().navigateIntoDeclareAndReview();
   })
+
 
   test('Declare & Acknowledge Form', async () => {
     const testDatDeclarationsInfo = testData.declarations;
@@ -161,7 +163,8 @@ test.describe('Submit new grant form', () => {
     await pm.getDeclarePage().navigateIntoReview();
   })
 
-  test('Review all section in Form', async () => {
+
+  test('Review All Section in Form', async () => {
     const testDatEligibilityInfo = testData.eligibility;
     const testDataContactInfo = testData.contactDetails;
     const testDataProposalInfo = testData.proposal;
@@ -202,12 +205,13 @@ test.describe('Submit new grant form', () => {
       testDataBusinessImpactInfo.otherDetails
     )
 
-    await pm.getReviewPage().verifyProposalCostSection(
+    await pm.getReviewPage().verifyCostSection(
       testDataCostInfo.salaryDetails.name,
       testDataCostInfo.salaryDetails.designation,
       testDataCostInfo.salaryDetails.roleDescription,
       testDataCostInfo.salaryDetails.duration,
-      testDataCostInfo.salaryDetails.salary
+      testDataCostInfo.salaryDetails.salary,
+      testDataCostInfo.salaryDetails.document
     )
     await pm.getReviewPage().verifyDeclareSection(
       testDatDeclarationsInfo.criminalLiability,
@@ -222,15 +226,29 @@ test.describe('Submit new grant form', () => {
     )
   }
   )
-  test('Submit Business Grant form', async () => {
+
+  test('Submit Business Grant Form', async () => {
+    const testDatSubmitInfo = testData.submitInfo;
+
     await pm.getReviewPage().finalAcknowledgementAndSubmitForm()
-    await pm.getReviewPage().verifySubmissionDetails("Submitted","Enterprise Singapore")
+    await pm.getReviewPage().verifySubmissionDetails(
+      testDatSubmitInfo.status,
+      testDatSubmitInfo.agencyName
+    )
     referenceId = await pm.getReviewPage().getReferenceId()
   })
 
-  test('Verify the form in Processing Tab', async () => {
+
+  test('Verify the Form in Processing Tab', async () => {
+    const testDatSubmitInfo = testData.submitInfo;
+
     await pm.getMenu().navigateIntoMyGrantPage()
-    await pm.navigateToMyGrant().verifyFormInProcessingTab(referenceId)
+    await pm.navigateToMyGrant().verifyFormInProcessingTab(
+      referenceId,
+      testDatSubmitInfo.grantType,
+      testDatSubmitInfo.agencyName,
+      testData.proposal.projectName
+    )
   })
 
 

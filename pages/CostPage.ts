@@ -5,7 +5,7 @@ import path from 'path';
 
 export class CostPage extends PageBase {
 
-    readonly fileDirectory = '../resources/uploadFiles/sampleUploadDoc.pdf'
+   // readonly fileDirectory = '../resources/uploadFiles/sampleUploadDoc.pdf'
     private btnSalary: Locator = this.page.locator('#react-project_cost-salaries-accordion-header')
     private btnAddItem: Locator = this.page.locator('#react-project_cost-salaries-add-item')
 
@@ -28,29 +28,15 @@ export class CostPage extends PageBase {
         super(page)
     }
 
-    private selectVendor(option: string): Locator {
-        return this.page
-            .getByRole('radio', { name: option });
-    }
+    // private async uploadFile(filePath: string, fileName: string) {
 
-    private async uploadFile(filePath: string, fileName: string) {
+    //     filePath = path.resolve(__dirname, filePath);
+    //     await this.fileInput.setInputFiles(filePath);
+    //     const uploadedFileName = await this.page.locator('.upload-success').textContent();
+    //     expect(uploadedFileName).toContain(fileName);
+    // }
 
-        filePath = path.resolve(__dirname, filePath);
-        await this.fileInput.setInputFiles(filePath);
-        const uploadedFileName = await this.page.locator('.upload-success').textContent();
-        expect(uploadedFileName).toContain(fileName);
-    }
-
-/**
- * Extracts only numeric values from a given string.
- * @param value - The string to extract numbers from.
- * @returns A string containing only the numeric characters.
- */
-private async extractNumericValues(value: string) {
-    return value.replace(/\D/g, ''); // Replace all non-numeric characters with an empty string
-}
-
-    async fillSalarySection(name: string, designation: string, role: string, projInvolment: string, salaryInbillingCurrency: string, fileName: string) {
+    async fillSalarySection(name: string, designation: string, role: string, projInvolment: string, salaryInbillingCurrency: string, fileName: string,fileDirectory: string) {
 
         await this.btnSalary.click()
         await this.btnAddItem.click()
@@ -61,14 +47,10 @@ private async extractNumericValues(value: string) {
         await this.txtSalaryInBillingCurrency.fill(salaryInbillingCurrency)
 
         const populatedMonthlySalary = await this.txtMonthlySalry.inputValue()
-        const monthlySalary = await this.extractNumericValues(populatedMonthlySalary);
+        const monthlySalary = this.extractNumericValues(populatedMonthlySalary);
         expect(Number(monthlySalary)).toBe(Number(salaryInbillingCurrency))
 
-        // const populatedEstimatedCost = await this.txtEstimatedCost.inputValue()
-        // const estimatedCost = await this.extractNumericValues(populatedEstimatedCost);
-        // expect(Number(estimatedCost)).toBe((salaryInbillingCurrency))
-
-        await this.uploadFile(this.fileDirectory, fileName)
+        await this.uploadFile(fileDirectory, fileName,this.fileInput)
     }
 
     async clickSave() {

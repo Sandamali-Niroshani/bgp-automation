@@ -17,7 +17,6 @@ export class ContactDetailsPage extends PageBase {
     private txtBuildingName: Locator = this.page.getByLabel('Building Name')
     private checkBoxMailingAddress: Locator = this.page.locator('#react-contact_info-correspondence_address-copied')
     private checkBoxOfferAddressee: Locator = this.page.locator('#react-contact_info-copied')
-    
 
     private txtOffereeName: Locator = this.page.locator('#react-contact_info-offeree_name')
     private txtOffereeJobTitle: Locator = this.page.locator('#react-contact_info-offeree_designation')
@@ -52,14 +51,14 @@ export class ContactDetailsPage extends PageBase {
         await this.txtBuildingName.fill(buildingName)
     }
 
-    async fillOfferAddressSection(name: string, jobTitle: string, email: string) {
+    async fillOfferAddressSection(name: string, jobTitle: string) {
         await this.txtOffereeName.fill(name)
         await this.txtOffereeJobTitle.fill(jobTitle)
         this.offerAddresseeEmail = this.generateEmail()
         console.log('Email: ', this.offerAddresseeEmail)
         await this.txtOffereeJobEmail.fill(this.offerAddresseeEmail)
     }
-   
+
     async fillMaillingAddressPopulatingData(postalCode: string, blockNo: string, street: string, level: string, unit: string, buildingName: string) {
         await this.checkBoxMailingAddress.check()
         expect(await this.checkBoxMailingAddress.isChecked()).toBeTruthy()
@@ -75,7 +74,7 @@ export class ContactDetailsPage extends PageBase {
         await this.checkBoxOfferAddressee.check()
         expect(await this.checkBoxOfferAddressee.isChecked()).toBeTruthy()
         expect(await this.txtOffereeName.inputValue()).toBe(name)
-        expect(await this.txtOffereeJobTitle.inputValue()).toBe(jobTitle)   
+        expect(await this.txtOffereeJobTitle.inputValue()).toBe(jobTitle)
         expect(await this.txtOffereeJobEmail.inputValue()).toBe(this.email)
     }
 

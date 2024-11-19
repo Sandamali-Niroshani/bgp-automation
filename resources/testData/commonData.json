@@ -3,5 +3,8 @@
         "sector": "IT",
         "developmentArea": "Bring my business overseas or establish a stronger international presence",
         "functionalArea": "Market Readiness Assistance"
+    },
+    "costInfo":{
+        "fileDirectory":"../resources/uploadFiles/sampleUploadDoc.pdf"
     }
 }

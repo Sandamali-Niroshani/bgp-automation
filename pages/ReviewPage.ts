@@ -1,7 +1,6 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { PageBase } from "../utils/PageBase";
 
-const PARAMETER = "parameter"
 export class ReviewPage extends PageBase {
 
     private eligibilityMenu: Locator = this.page.locator('.menu-text', { hasText: 'Eligibility' })
@@ -39,6 +38,8 @@ export class ReviewPage extends PageBase {
     private txtSalaryInBillingCurrency: Locator = this.page.locator('//div[contains(@id,"data_project_cost_salaries")]//div[contains(@id,"billing_currency")]')
     private txtMonthlySalary: Locator = this.page.locator('//div[contains(@id,"data_project_cost_salaries")]//div[contains(@id,"monthly_salary")]')
     private txtEstimatedCost: Locator = this.page.locator('//div[contains(@id,"estimated_cost")]')
+    private fileUploaded: Locator = this.page.locator('//div[contains(@id,"data_project_cost_salaries")]//tr[@class="upload-success"]')
+
 
     private txtCriminalCheck: Locator = this.page.locator('#react-declaration-criminal_liability_check')
     private txtCivilProceedingCheck: Locator = this.page.locator('#react-declaration-civil_proceeding_check')
@@ -50,13 +51,13 @@ export class ReviewPage extends PageBase {
     private txtDebarmentCheck: Locator = this.page.locator('#react-declaration-debarment_check')
     private txtConsentAndAcknowledge: Locator = this.page.locator('#react-declaration-consent_acknowledgement_check')
 
-    private finalAcknoledgementContent: Locator = this.page.locator('.bgp-summarydeclaration-containe')
+    private finalAcknoledgementContent: Locator = this.page.locator('.bgp-summarydeclaration-container')
     private checkboxFinalAcknowledge: Locator = this.page.locator('#react-declaration-info_truthfulness_check')
     private btnSubmit: Locator = this.page.locator('#submit-btn')
 
     private lblRefId: Locator = this.page.locator('//td[text()="Ref ID:"]/following-sibling::td[@class="value"]')
     private lblStatus: Locator = this.page.locator('//td[text()="Status:"]/following-sibling::td[@class="value"]')
-    private lblAgencyName: Locator = this.page.locator('//td[text()="Agency Details:"]/following-sibling::td[@class="value"]/span')
+    private lblAgencyName: Locator = this.page.locator('//td[text()="Agency Details:"]/following-sibling::td[@class="value"]/span[1]')
 
 
     constructor(page: Page) {
@@ -99,8 +100,8 @@ export class ReviewPage extends PageBase {
 
     async verifyBusinessImpactSection(overseasSales: string, overseasInvestments: string, relationalRemarks: string, benefitsRemarks: string) {
 
-        // await this.verifyOverseasSales(overseasSales)
-        // await this.verifyOverseasInvestments(overseasInvestments)
+        await this.verifyOverseasSales(overseasSales)
+        await this.verifyOverseasInvestments(overseasInvestments)
         expect(await this.txtRelationaleRemarks.textContent()).toEqual(relationalRemarks)
         expect(await this.txtBenefitsRemarks.textContent()).toEqual(benefitsRemarks)
     }
@@ -108,37 +109,76 @@ export class ReviewPage extends PageBase {
     private async verifyOverseasSales(sales: string) {
         const arrOverseasSales = await this.txtOverseasSales.all();
         const arrSales = sales.split(',');
-        this.waitForNumberOfSeconds(2)
+        this.waitForNumberOfSeconds(1)
         console.log("arrSales:", arrSales)
 
         for (let i = 0; i < arrSales.length; i++) {
-            expect(await Number(arrOverseasSales[i].textContent())).toEqual(Number(arrSales[i]))
+            let actualOverSeasSale = await arrOverseasSales[i].textContent()
+
+            if (actualOverSeasSale) {
+                actualOverSeasSale = actualOverSeasSale.replace(/,/g, '')
+            }
+            console.log('actualOverSeasSale:', actualOverSeasSale);
+
+            const expectedOverSeasSale = arrSales[i]
+            expect(Number(actualOverSeasSale)).toEqual(Number(expectedOverSeasSale))
         }
     }
 
     private async verifyOverseasInvestments(investments: string) {
         const arrOverseasInvestments = await this.txtOverseasInvestments.all();
         const arrInvestments = investments.split(',');
-        await this.waitForNumberOfSeconds(2)
+        await this.waitForNumberOfSeconds(1)
         console.log("arrInvestments:", arrInvestments)
 
         for (let i = 0; i < arrInvestments.length; i++) {
-            expect(await arrOverseasInvestments[i].textContent()).toEqual(arrInvestments[i])
+            let actualOverSeaInvestment = await arrOverseasInvestments[i].textContent()
+
+            if (actualOverSeaInvestment) {
+                actualOverSeaInvestment = actualOverSeaInvestment.replace(/,/g, '')
+            }
+            console.log('actualOverSeaInvestment:', actualOverSeaInvestment);
+            const expectedOverSeasInvestment = arrInvestments[i]
+            expect(Number(actualOverSeaInvestment)).toEqual(Number(expectedOverSeasInvestment))
         }
 
     }
 
-    async verifyProposalCostSection(projectTitle: string, projectDesignation: string, projectRole: string, projectInvolvement: string,
-        salaryInBillingCurrency: string) {
+    async verifyCostSection(projectTitle: string, projectDesignation: string, projectRole: string, projectInvolvement: string,
+        salaryInBillingCurrency: string, fileName: string) {
 
         expect(await this.txtName.textContent()).toEqual(projectTitle)
         expect(await this.txtProjectDesignation.textContent()).toEqual(projectDesignation)
         expect(await this.txtProjectRole.textContent()).toEqual(projectRole)
-        //expect(await this.txtProjectInvolvement.textContent()).toEqual(projectInvolvement)
-        // const actualsalaryInBillingCurrency = await this.txtSalaryInBillingCurrency.textContent()
-        // expect( Number(actualsalaryInBillingCurrency)).toEqual(Number(salaryInBillingCurrency))
-        // expect(await this.txtMonthlySalary.textContent()).toEqual(salaryInBillingCurrency)
-        // expect(await this.txtEstimatedCost.textContent()).toEqual(salaryInBillingCurrency)
+
+        let actualProjectInvolment = await this.txtProjectInvolvement.textContent()
+        if (actualProjectInvolment) {
+            actualProjectInvolment = this.extractNumericValues(actualProjectInvolment)
+        }
+        expect(Number(projectInvolvement)).toEqual(Number(actualProjectInvolment))
+
+
+        let actualsalaryInBillingCurrency = await this.txtSalaryInBillingCurrency.textContent()
+        if (actualsalaryInBillingCurrency) {
+            actualsalaryInBillingCurrency = this.extractNumericValues(actualsalaryInBillingCurrency)
+        }
+        console.log("actualsalaryInBillingCurrency:", actualsalaryInBillingCurrency)
+        expect(Number(salaryInBillingCurrency)).toEqual(Number(actualsalaryInBillingCurrency))
+
+
+        let actualMonthlySalary = await this.txtMonthlySalary.textContent()
+        if (actualMonthlySalary) {
+            actualMonthlySalary = this.extractNumericValues(actualMonthlySalary)
+        }
+        expect(Number(salaryInBillingCurrency)).toEqual(Number(actualMonthlySalary))
+
+        let actualEstimatedCost = await this.txtEstimatedCost.textContent()
+        if (actualEstimatedCost) {
+            actualEstimatedCost = this.extractNumericValues(actualEstimatedCost)
+        }
+
+        expect(Number(salaryInBillingCurrency)).toEqual(Number(actualEstimatedCost))
+        expect(await this.fileUploaded.textContent()).toContain(fileName)
     }
 
     async verifyDeclareSection(criminalCheck: string, civilCheck: string, insolvencyCheck: string, projIncentivesCheck: string,

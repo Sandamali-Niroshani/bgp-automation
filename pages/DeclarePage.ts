@@ -1,7 +1,6 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { PageBase } from "../utils/PageBase";
 
-const PARAMETER = "parameter"
 export class DeclarePage extends PageBase {
 
     readonly strCriminalCheck = 'react-declaration-criminal_liability_check'

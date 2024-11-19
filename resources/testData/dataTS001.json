@@ -22,8 +22,7 @@
     },
     "offerAddress": {
       "name": "James Robert",
-      "designation": "Software Engineer",
-      "email": "test3@gmail.com"
+      "designation": "Software Engineer"
     }
   },
   "proposal": {
@@ -62,6 +61,10 @@
     "relatedPartyCheck": "No",
     "debarmentCheck": "No",
     "acknowledgement": "Yes"
+  },
+  "submitInfo": {
+    "status": "Submitted",
+    "agencyName": "Enterprise Singapore",
+    "grantType": "Market Readiness Assistance"
   }
-
 }

@@ -1,10 +1,7 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { PageBase } from "../utils/PageBase";
 
-const PARAMETER = "parameter"
 export class ProposalPage extends PageBase {
-
-    private dropdownSelectedOption: Locator = this.page.locator('.Select-option is-selected is-focused')
 
     private txtProjectTitle: Locator = this.page.locator('#react-project-title')
     private txtStartDate: Locator = this.page.locator('#react-project-start_date')
@@ -29,44 +26,12 @@ export class ProposalPage extends PageBase {
         return this.page.locator(`#${locatorId} input[role="combobox"]`);
     }
 
-    private async searchAndSelectDropdown(eleDropdown: Locator, option: string) {
-      await eleDropdown.fill(option)
-
-      const focusedOption = this.page.locator('.Select-option.is-focused');
-      await focusedOption.waitFor({ state: 'visible' })
-      const optionText = await focusedOption.textContent();
-
-      if(optionText?.trim() == option){
-        await focusedOption.click()
-    }
-    else {
-        console.error(`Option ${option} not found`);
-        throw new Error(`Dropdown option ${option} is not selected`);
-    }
-}
-
     // Dynamically Create Locator
     private getIsExpandingOutsideLocator(option: string): Locator {
         return this.page
             .locator('div.form-group:has-text("expanding into a target market outside Singapore?")')
             .getByRole('radio', { name: option });
     }
-
-    private async getDate(noOfDays: number) {
-        let date = new Date()
-        date.setDate(date.getDate() + noOfDays)
-        return date.toISOString().split('T')[0];
-    }
-
-    private async formatDate(date: string) {
-        const timestamp = Date.parse(date);
-        const dateObject = new Date(timestamp);
-        const expectedDate = dateObject.getDate().toString();
-        const exepctedMont = dateObject.toLocaleString('en-US', { month: 'short' });
-        const expectedYear = dateObject.getFullYear().toString();
-        return `${expectedDate} ${exepctedMont} ${expectedYear}`;
-    }
-
 
     async fillProposalSection(projTitle: string, startDate: number, endDate: number, projDescription: string,  activity: string, targetMarket: string, isExpand: string) {
         await this.txtProjectTitle.fill(projTitle)
