@@ -18,7 +18,7 @@ export default defineConfig({
 
   workers: 1, // Run tests sequentially
 
-  timeout: 180000, // 60 seconds
+  timeout: 180000, // 180 seconds
 
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,

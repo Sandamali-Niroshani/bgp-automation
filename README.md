@@ -3,7 +3,19 @@
 # Special note:
 
 The My Grants page is taking more than 2 minutes to load. Please note that I have increased the wait time for this project.
-For reference, I will attach a video of the My Grants section. I have also shared the pass report separately.
+For reference, I will attach a video of the My Grants section. 
+
+If you encounter any issues while running the project, ensure you are using a compatible Playwright version.
+install the specific versions using:
+
+npx playwright@1.49.0 install  
+
+or
+
+npx playwright@1.48.2 install 
+
+I have also shared the pass report separately.
+This project can be improved more, but i conclude at this stage.
 
 ## Overview
 
