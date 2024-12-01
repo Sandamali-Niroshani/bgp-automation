@@ -5,7 +5,6 @@ import path from 'path';
 
 export class CostPage extends PageBase {
 
-   // readonly fileDirectory = '../resources/uploadFiles/sampleUploadDoc.pdf'
     private btnSalary: Locator = this.page.locator('#react-project_cost-salaries-accordion-header')
     private btnAddItem: Locator = this.page.locator('#react-project_cost-salaries-add-item')
 
@@ -27,14 +26,6 @@ export class CostPage extends PageBase {
     constructor(page: Page) {
         super(page)
     }
-
-    // private async uploadFile(filePath: string, fileName: string) {
-
-    //     filePath = path.resolve(__dirname, filePath);
-    //     await this.fileInput.setInputFiles(filePath);
-    //     const uploadedFileName = await this.page.locator('.upload-success').textContent();
-    //     expect(uploadedFileName).toContain(fileName);
-    // }
 
     async fillSalarySection(name: string, designation: string, role: string, projInvolment: string, salaryInbillingCurrency: string, fileName: string,fileDirectory: string) {
 

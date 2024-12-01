@@ -46,10 +46,10 @@ export class PageBase {
     async formatDate(date: string) {
         const timestamp = Date.parse(date);
         const dateObject = new Date(timestamp);
-        const expectedDate = dateObject.getDate().toString();
-        const exepctedMont = dateObject.toLocaleString('en-US', { month: 'short' });
+        const expectedDate = dateObject.getDate().toString().padStart(2,'0');
+        const expectedMonth = dateObject.toLocaleString('en-US', { month: 'short' });
         const expectedYear = dateObject.getFullYear().toString();
-        return `${expectedDate} ${exepctedMont} ${expectedYear}`;
+        return `${expectedDate} ${expectedMonth} ${expectedYear}`;
     }
 
 
