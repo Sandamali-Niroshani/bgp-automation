@@ -97,8 +97,8 @@ test.describe('Submit new grant form', () => {
 
     await pm.getProposal().fillProposalSection(
       testDataProposalInfo.projectName,
-      testDataProposalInfo.numberOfYears,
-      testDataProposalInfo.localShare,
+      testDataProposalInfo.startDateAddDay,
+      testDataProposalInfo.endDateAddDay,
       testDataProposalInfo.objective,
       testDataProposalInfo.marketEntryStrategy,
       testDataProposalInfo.targetMarket,
@@ -114,7 +114,7 @@ test.describe('Submit new grant form', () => {
     const testDataBusinessImpactInfo = testData.businessImpact;
 
     await pm.getBusinessImpact().fillBusinessImpactSection(
-      testDataBusinessImpactInfo.numberOfYears,
+      testDataBusinessImpactInfo.currentFYAddDay,
       testDataBusinessImpactInfo.overseasSales,
       testDataBusinessImpactInfo.overseasInvestments,
       testDataBusinessImpactInfo.reasoning,

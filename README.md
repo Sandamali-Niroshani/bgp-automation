@@ -34,6 +34,15 @@ This project is based on Playwright and TypeScript. It includes test cases for t
 
 The project follows the page object design pattern and utilizes an organized folder structure and classes to achieve reusability and maintainability. For handling test data, JSON files are used. Four test cases have been written. Methods are properly divided and created to ensure they cover all scenarios, include necessary verifications, and prioritize reusability without duplications, making it easier to maintain.
 
+Inside the pages class, follow the Page Object Design pattern. When creating locators, use the following prefixes to maintain consistency:
+
+      * btn for buttons
+      * txt for text fields
+      * lbl for labels
+      * rd for radio buttons
+      * ddl for dropdowns
+      * lnk for link
+
 This project has potential for further improvements to adopt more best practices.
 
 The project folder structure and the design of test cases are explained in detail under the "Folder Structure" and "Test Cases" sections.
@@ -132,17 +141,23 @@ TS001: End to end flow of submitting a new business grant form.
 
 TS002: Contact detail section is succeesfully saved with auto populated mailing address and letter of addressee details.
 
-      This testcase is planned to cover the auto-population of data on the contact details page. In TS001, while submitting the form, the user manually enters the email address and addressee details. Therefore, this test case ensures that contact details are successfully saved using the auto-populated feature.
+      This testcase is planned to cover the auto-population of data on the contact details page.  
+      In TS001, while submitting the form, the user manually enters the email address and addressee details.  
+      Therefore, this test case ensures that contact details are successfully saved using the auto-populated feature.
 
 
 TS003: Eligibility section criteria validation warning message and verify open FAQ link
        
-       This testcase is planned to cover the negative scenario of selecting 'No' in the eligibility section. It verifies the warning message, the FAQ link, and ensures that a new tab opens successfully when the FAQ link is clicked.
+       This testcase is planned to cover the negative scenario of selecting 'No' in the eligibility section. 
+       It verifies the warning message, the FAQ link, and ensures that a new tab opens successfully when the FAQ link is clicked.
 
 TS004: Validate the form error redirection and sidebar error number for missing input fields during form submission
        
-       It verifies that a validation error is triggered and that the form redirects to the section with the missing details. An error number should appear in the sidebar next to the offending section. 
-       This test case is also designed to test all menu navigation. In TS001 (end-to-end test case), the user navigates through the menu using the "Next" button. Here, the approach is to first navigate through all menus and then click the "Review" button to test this negative scenario.
+       It verifies that a validation error is triggered and that the form redirects to the section with the 
+       missing details. An error number should appear in the sidebar next to the offending section. 
+       This test case is also designed to test all menu navigation. In TS001 (end-to-end test case), 
+       the user navigates through the menu using the "Next" button. Here, the approach is to first navigate
+       through all menus and then click the "Review" button to test this negative scenario.
 
 ```
 
